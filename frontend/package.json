@@ -1,0 +1,27 @@
+{
+  "name": "meow-fronted",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "ant-design-vue": "^4.0.0-rc.6",
+    "axios": "^1.5.1",
+    "core-js": "^3.8.3",
+    "pdfjs-dist": "^3.11.174",
+    "vue": "^3.2.13",
+    "vue-pdf": "^4.3.0",
+    "vue-pdf-embed": "^1.2.1",
+    "vue-router": "^4.0.3",
+    "vue3-pdfjs": "^0.1.6",
+    "vuex": "^4.0.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-plugin-vuex": "~5.0.0",
+    "@vue/cli-service": "~5.0.0"
+  }
+}

@@ -1,0 +1,9 @@
+Model Meow
+Parameters:
+Par0 : Boolean
+Par1 : {value0, value1, value2}
+Par2 : [0 .. 17]
+
+Constraints:
+# (Par0 = true) OR (Par2 > 11) #
+# (Par1 != value1) OR (Par2 <= 15) #
