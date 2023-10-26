@@ -19,4 +19,4 @@ npm run build
 ```
 
 ## 自定义配置
-如果需要自定义配置，您可以参考 Configuration Reference 获取更多信息。
+如果需要自定义配置，您可以参考 (Configuration Reference)[https://cli.vuejs.org/config/] 获取更多信息。
