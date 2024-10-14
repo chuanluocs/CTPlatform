@@ -1,1 +1,1 @@
-SamplingCA输入文件路径
+SamplingCA / ScalableCA 输入文件路径
