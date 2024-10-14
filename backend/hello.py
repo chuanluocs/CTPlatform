@@ -9,6 +9,7 @@ import re
 import xlwt
 import pandas as pd
 import io
+import csv
 
 app = Flask(__name__)
 CORS(app)
@@ -446,7 +447,7 @@ def get_testcases():
         if op["type"] == "Integer":
             min_value = int(op["min_value"])
             max_value = int(op["max_value"])
-            if max_value - min_value > 20:
+            if max_value - min_value > 50:
                 large_integer.append(op)
                 need.append(op["name"])
                 used_val[op["name"]] = [ min_value, max_value ]
@@ -537,6 +538,9 @@ def get_testcases():
     command = ['nohup', './SamplingCA/SamplingCA', '-input_cnf_path', input_cnf_path, '-output_testcase_path', output_file_path]
     subprocess.run(command, check = True)
 
+    command = ['nohup', './ScalableCA/ScalableCA', '-input_cnf_path', input_cnf_path, '-init_2wiseCA_file_path', output_file_path, '-output_testcase_path', output_file_path]
+    subprocess.run(command, check = True)
+
     option_names = []
     for op in options:
         option_names.append(op["name"])
@@ -553,10 +557,12 @@ def get_testcases():
     # description: "Meow Meow Meow",
     # value: "True",
     testcases = []
+    valuse_map = {}
     with open(output_file_path, 'r') as f:
         for line in f.readlines():
             arr = list(map(int, line.split()))
             tc = []
+            values_line = []
             for x in options:
                 opt = { "id" : x["id"] }
                 opt["name"] = x["name"]
@@ -593,9 +599,13 @@ def get_testcases():
                                 opt["value"] = str(used_val[opt["name"]][val])
                             break
                     # print(opt)
-
                 tc.append(opt)
-            testcases.append(tc)
+                values_line.append(opt["value"])
+
+            tp = tuple(values_line)
+            if tp not in valuse_map:
+                valuse_map[tp] = True
+                testcases.append(tc)
     
     if os.path.exists(ctw_path):
         os.remove(ctw_path)
@@ -726,6 +736,38 @@ def download_testcases():
     # response.headers['Content-Disposition'] = 'attachment; filename=data.xls'
 
     # return response
+
+@app.route('/api/download_testcases_csv', methods = ['GET', 'POST'])
+def download_testcases_csv():
+    data = request.get_json()
+    tc_columns = data["columns"]
+    tc_data = data["data"]
+    random_hex = secrets.token_hex(16)
+    random_urlsafe = secrets.token_urlsafe(32)
+    download_file_name = secure_filename(random_urlsafe + ".csv")
+    download_path = os.path.join(app.config['DOWNLOAD_FOLDER'], download_file_name)
+
+    # print(tc_columns)
+    # print(tc_data)
+    # print(download_path)
+    with open(download_path, "w") as f:
+        writer = csv.writer(f)
+        head, key = [], []
+        for x in tc_columns:
+            head.append(x["title"])
+            key.append(x["dataIndex"])
+        writer.writerow(head)
+
+        # print(key)
+        for x in tc_data:
+            # print(x)
+            dataline = []
+            for k in key:
+                dataline.append(x[k])
+            writer.writerow(dataline)
+    
+    return send_file(download_path, as_attachment = True, download_name = download_file_name, mimetype='text/csv')
+    
 
 
 def get_standard_obj(obj):

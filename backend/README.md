@@ -1,6 +1,14 @@
 # CTPlatform后端部分
 在开始工作之前，请按照以下步骤激活相应的虚拟环境：
 
+编译 ScalableCA 与 SamplingCA：
+```
+cd SamplingCA
+make
+cd ../ScalableCA
+sh build.sh
+```
+
 使用以下命令激活虚拟环境：
 ```
 $ . venv/bin/activate
