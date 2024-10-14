@@ -1,17 +1,20 @@
 # CTPlatform后端部分
 在开始工作之前，请按照以下步骤激活相应的虚拟环境：
 
-编译 ScalableCA 与 SamplingCA：
+使用以下命令激活虚拟环境：
+```
+$ . venv/bin/activate
+```
+
+编译 ScalableCA、SamplingCA、格式转换器：
 ```
 cd SamplingCA
 make
 cd ../ScalableCA
 sh build.sh
-```
-
-使用以下命令激活虚拟环境：
-```
-$ . venv/bin/activate
+cd ../CTWedge
+g++ parser.cpp -o parser
+cd ..
 ```
 
 接下来，设置必要的环境变量并运行后端服务：
