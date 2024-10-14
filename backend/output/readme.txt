@@ -1,1 +1,1 @@
-SamplingCA输出文件路径
+SamplingCA / ScalableCA 输出文件路径
